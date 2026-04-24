@@ -1,0 +1,5 @@
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+export function Hero({ post }: { post?: any }) {
+  return <section className="relative overflow-hidden border-b border-white/5"><div className="absolute inset-0"><Image src={post?.featuredImageUrl || '/hero-motorcycle.jpg'} alt="Motorcycle hero" fill priority className="object-cover opacity-35" sizes="100vw" /><div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/70 to-[#050505]" /></div><div className="relative mx-auto max-w-7xl px-4 py-28 md:px-8 md:py-40"><motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}><p className="mb-4 text-xs uppercase tracking-[0.45em] text-amber-200/70">Luxury ride storytelling</p><h1 className="display-serif max-w-4xl text-5xl font-semibold leading-[0.9] md:text-7xl">Motorcycle journeys, captured with editorial precision.</h1><p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-lg">Publish ride narratives, route stats, galleries, and cinematic media with a secure admin workflow.</p></motion.div></div></section>;
+}

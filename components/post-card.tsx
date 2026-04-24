@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { CalendarDays, MapPin } from 'lucide-react';
+export function PostCard({ post }: { post: any }) {
+  return <article className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-glow transition hover:-translate-y-1"><Link href={`/rides/${post.slug}`} className="block"><div className="relative aspect-[16/10] overflow-hidden"><Image src={post.featuredImageUrl || '/placeholder-ride.jpg'} alt={post.title} fill className="object-cover transition duration-700 group-hover:scale-[1.04]" sizes="(max-width: 768px) 100vw, 50vw" /><div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" /></div><div className="space-y-3 p-6"><div className="flex items-center gap-3 text-xs text-white/50"><span className="inline-flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" /> {new Date(post.rideDate).toLocaleDateString()}</span><span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {post.locationTags?.[0] || 'Road'}</span></div><h2 className="display-serif text-3xl leading-none text-white">{post.title}</h2><p className="line-clamp-2 text-sm leading-6 text-white/70">{post.description}</p><span className="inline-flex items-center text-sm text-amber-200">Read more →</span></div></Link></article>;
+}

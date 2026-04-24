@@ -1,0 +1,2 @@
+import slugify from 'slugify';
+export function makeUniqueSlug(title: string) { return slugify(title, { lower: true, strict: true, trim: true }); }

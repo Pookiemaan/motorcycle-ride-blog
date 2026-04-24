@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus { DRAFT PUBLISHED }
+enum MediaKind { IMAGE VIDEO }
+enum MediaStatus { UPLOADING READY PROCESSING FAILED }
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  role          String   @default("ADMIN")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastSeenAt    DateTime @default(now())
+  resetTokens   ResetToken[]
+  refreshTokens RefreshToken[]
+  posts         Post[]
+}
+
+model Post {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  title           String
+  description     String
+  richDescription String      @db.Text
+  rideDate        DateTime
+  locationTags    String[]
+  rideStats       Json?
+  featuredImageId String?
+  featuredImage   MediaAsset? @relation("featuredImage", fields: [featuredImageId], references: [id])
+  status          PostStatus  @default(DRAFT)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  publishedAt     DateTime?
+  authorId        String
+  author          User        @relation(fields: [authorId], references: [id])
+  media           MediaAsset[]
+  views           ViewEvent[]
+  gpxUrl          String?
+  seoTitle        String?
+  seoDescription  String?
+}
+
+model MediaAsset {
+  id           String      @id @default(cuid())
+  key          String      @unique
+  bucket       String
+  provider     String
+  kind         MediaKind
+  status       MediaStatus @default(UPLOADING)
+  mimeType     String
+  fileName     String
+  size         Int
+  width        Int?
+  height       Int?
+  duration     Int?
+  thumbnailKey String?
+  altText      String?
+  createdAt    DateTime    @default(now())
+  postId       String?
+  post         Post?       @relation(fields: [postId], references: [id])
+  featuredFor  Post?       @relation("featuredImage")
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+}
+
+model ResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+}
+
+model ViewEvent {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  ipHash    String?
+}

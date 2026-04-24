@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body { height: 100%; background: radial-gradient(circle at top, rgba(212,175,55,0.10), transparent 25%), linear-gradient(180deg, #080808 0%, #050505 100%); color: #f6f4ef; }
+body { font-family: Inter, system-ui, sans-serif; }
+h1,h2,h3,.display-serif { font-family: "Cormorant Garamond", Georgia, serif; letter-spacing: 0.02em; }
+.glass { background: rgba(255,255,255,0.055); backdrop-filter: blur(22px); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 20px 80px rgba(0,0,0,0.35); }
+.shadow-glow { box-shadow: 0 0 80px rgba(212,175,55,0.09); }
+.prose-lite p { margin: 0 0 1rem 0; line-height: 1.85; color: rgba(245,245,245,0.90); }
+.prose-lite a { text-decoration: underline; text-underline-offset: 3px; }
